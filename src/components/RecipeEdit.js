@@ -114,7 +114,7 @@ class RecipeEdit extends Component {
             <div className="input-field col s12">
               <i className="material-icons prefix">access_time</i>
               <input
-                type="text"
+                type="number"
                 id="time"
                 className="validate"
                 placeholder={this.state.recipe.time.toUpperCase()}
