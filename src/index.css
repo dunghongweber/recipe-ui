@@ -26,3 +26,7 @@ code {
   border-radius: 10%;
   padding: 50px 15px 100px 15px;
 }
+
+p {
+  white-space: pre-line;
+}

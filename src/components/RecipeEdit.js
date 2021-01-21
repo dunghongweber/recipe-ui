@@ -130,15 +130,15 @@ class RecipeEdit extends Component {
           <div className="row">
             <div className="input-field col s12">
               <i className="material-icons prefix">storage</i>
-              <input
-                type="text"
+
+              <textarea
                 id="ingredients"
-                className="validate"
+                className="materialize-textarea validate"
                 placeholder={this.state.recipe.ingredients.toUpperCase()}
                 defaultValue={this.state.recipe.ingredients.toUpperCase()}
                 required
                 onChange={this.handleChange}
-              />
+              ></textarea>
               <label htmlFor="ingredients" className="active">
                 Ingredients:
               </label>
@@ -147,15 +147,15 @@ class RecipeEdit extends Component {
           <div className="row">
             <div className="input-field col s12">
               <i className="material-icons prefix">pie_chart</i>
-              <input
-                type="text"
+
+              <textarea
                 id="directions"
-                className="validate"
+                className="materialize-textarea validate"
                 defaultValue={this.state.recipe.directions.toUpperCase()}
                 placeholder={this.state.recipe.directions.toUpperCase()}
                 required
                 onChange={this.handleChange}
-              />
+              ></textarea>
               <label htmlFor="directions" className="active">
                 Directions:
               </label>

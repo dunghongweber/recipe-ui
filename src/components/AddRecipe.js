@@ -25,49 +25,76 @@ class AddRecipe extends Component {
       [e.target.id]: e.target.value,
     });
 
-    console.log(this.state.category);
-  };
-  handleSelect = (e) => {
-    this.setState({
-      category: e.target.value,
-    });
-
-    console.log(this.state.category);
+    // console.log(this.state.category);
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(this.state); //testing
+    if (this.state.category === null || this.state.category === "") {
+      let noCategoryConfirm = window.confirm(
+        "No specific category was selected, continue?"
+      );
+      if (noCategoryConfirm) {
+        axios({
+          method: "POST",
+          url: "https://dh-recipesapi.herokuapp.com/new",
+          data: qs.stringify({
+            category: "other",
+            name: this.state.name.toUpperCase(),
+            time: this.state.time.toUpperCase(),
+            ingredients: this.state.ingredients,
+            directions: this.state.directions,
+            owner: this.state.owner.toUpperCase(),
+          }),
+          headers: {
+            "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }).then((result) => {
+          // console.log(result.data); //log info for testing
 
-    axios({
-      method: "POST",
-      url: "https://dh-recipesapi.herokuapp.com/new",
-      data: qs.stringify({
-        category: this.state.category.toUpperCase(),
-        name: this.state.name.toUpperCase(),
-        time: this.state.time.toUpperCase(),
-        ingredients: this.state.ingredients,
-        directions: this.state.directions,
-        owner: this.state.owner.toUpperCase(),
-      }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-    }).then((result) => {
-      // console.log(result.data); //log info for testing
+          //if server returns no duplicate attempt
+          if (result.data.addRecipeResult.toUpperCase() === "YES") {
+            alert("Recipe Added"); //pop up alert
+            e.target.reset(); //reset all inputs
+            this.props.history.push("/"); //redirect to home
+          }
+          //if server returns already existing card
+          else {
+            alert(result.data.addRecipeResult); //pop up alert
+          }
+        });
+      }
+    } else {
+      axios({
+        method: "POST",
+        url: "https://dh-recipesapi.herokuapp.com/new",
+        data: qs.stringify({
+          category: this.state.category.toUpperCase(),
+          name: this.state.name.toUpperCase(),
+          time: this.state.time.toUpperCase(),
+          ingredients: this.state.ingredients,
+          directions: this.state.directions,
+          owner: this.state.owner.toUpperCase(),
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+      }).then((result) => {
+        // console.log(result.data); //log info for testing
 
-      //if server returns no duplicate attempt
-      if (result.data.addRecipeResult.toUpperCase() === "YES") {
-        alert("Recipe Added"); //pop up alert
-        e.target.reset(); //reset all inputs
-        this.props.history.push("/"); //redirect to home
-      }
-      //if server returns already existing card
-      else {
-        alert(result.data.addRecipeResult); //pop up alert
-      }
-    });
+        //if server returns no duplicate attempt
+        if (result.data.addRecipeResult.toUpperCase() === "YES") {
+          alert("Recipe Added"); //pop up alert
+          e.target.reset(); //reset all inputs
+          this.props.history.push("/"); //redirect to home
+        }
+        //if server returns already existing card
+        else {
+          alert(result.data.addRecipeResult); //pop up alert
+        }
+      });
+    }
   };
 
   render() {
@@ -89,7 +116,11 @@ class AddRecipe extends Component {
             </div>
             <div className="input-field col m4 s12">
               <i className="material-icons prefix">assignment</i>
-              <select id="category" onChange={this.handleChange} value="other">
+              <select
+                id="category"
+                onChange={this.handleChange}
+                defaultValue="other"
+              >
                 <option value="other" disabled>
                   Choose your category
                 </option>
@@ -152,6 +183,7 @@ class AddRecipe extends Component {
                 className="materialize-textarea validate"
                 required
                 onChange={this.handleChange}
+                row="3"
               ></textarea>
             </div>
           </div>
