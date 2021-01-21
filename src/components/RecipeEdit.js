@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import qs from "qs";
 import outputPicture from "../outputPicture";
+import M from "materialize-css";
 
 class RecipeEdit extends Component {
   state = {
@@ -14,6 +15,9 @@ class RecipeEdit extends Component {
 
   componentDidMount() {
     let id = this.props.match.params.recipe_id;
+
+    M.AutoInit();
+    M.updateTextFields();
 
     // console.log(id); //testing id
 
@@ -117,9 +121,10 @@ class RecipeEdit extends Component {
                 required
                 onChange={this.handleChange}
                 defaultValue={this.state.recipe.time.toUpperCase()}
-                autoFocus
               />
-              <label htmlFor="time">Cook time (in minutes):</label>
+              <label htmlFor="time" className="active">
+                Cook time (in minutes):
+              </label>
             </div>
           </div>
           <div className="row">
@@ -133,9 +138,10 @@ class RecipeEdit extends Component {
                 defaultValue={this.state.recipe.ingredients.toUpperCase()}
                 required
                 onChange={this.handleChange}
-                autoFocus
               />
-              <label htmlFor="ingredients">Ingredients:</label>
+              <label htmlFor="ingredients" className="active">
+                Ingredients:
+              </label>
             </div>
           </div>
           <div className="row">
@@ -149,9 +155,10 @@ class RecipeEdit extends Component {
                 placeholder={this.state.recipe.directions.toUpperCase()}
                 required
                 onChange={this.handleChange}
-                autoFocus
               />
-              <label htmlFor="directions">Directions:</label>
+              <label htmlFor="directions" className="active">
+                Directions:
+              </label>
             </div>
           </div>
 
